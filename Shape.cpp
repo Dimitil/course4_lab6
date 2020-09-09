@@ -2,18 +2,41 @@
 
 const char* Shape::getColor() const {
     switch (m_color) {
-    case(RED):      return "black";
-    case(GREEN):    return "green";
-    case(BLUE):     return "blue";
-    case(WHITE):    return "white";
-    case(BLACK):    return "black";
+    case(COLORS::RED):      return "black";
+    case(COLORS::GREEN):    return "green";
+    case(COLORS::BLUE):     return "blue";
+    case(COLORS::WHITE):    return "white";
+    case(COLORS::BLACK):    return "black";
+    default:                       return "undef_color";
     }
-    return "undef_color";
 }
 
 Rect::Rect(int x1, int y1, int x2, int y2, COLORS color) :
     m_x1(x1), m_x2(x2), m_y1(y1), m_y2(y2), Shape(color)
 {}
+
+double Rect::getS() const {
+    int width = 0;
+
+    if (m_y1 > m_y2) {
+        width = m_y1 - m_y2;
+    }
+    else {
+        width = m_y2 - m_y1;
+    }
+
+    int height = 0;
+    if (m_x1 > m_x2) {
+        height = m_x1 - m_x2;
+    }
+    else {
+        height = m_x2 - m_x1;
+    }
+
+    unsigned int S = width * height;
+
+    return static_cast<double>(S);
+}
 
 bool Rect::operator==(const Shape& shape) const{
 

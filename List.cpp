@@ -93,7 +93,7 @@ List& List::operator=(const List& other){//память уже есть, копирование
 }
 
 
-List::List(List&& other) : m_size(other.m_size) { //выделяется новая память, перемещение
+List::List(List&& other) noexcept : m_size(other.m_size){ //выделяется новая память, перемещение
     if (other.m_Head.m_pNext == &other.m_Tail) {
         m_Head.m_pNext = &m_Tail;
         m_Tail.m_pPrev = &m_Head;
@@ -111,7 +111,7 @@ List::List(List&& other) : m_size(other.m_size) { //выделяется новая память, пер
     }
 }
 
-List& List::operator=(List&& other) {//память уже есть, перемещение
+List& List::operator=(List&& other) noexcept{//память уже есть, перемещение
     if (this == &other) {
         return *this;
     }

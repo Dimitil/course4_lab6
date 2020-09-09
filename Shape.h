@@ -4,7 +4,7 @@
 class List;
 const double Pi = 3.14;
 
-enum COLORS {
+enum class COLORS {
     RED,
     GREEN,
     BLUE,
@@ -13,10 +13,11 @@ enum COLORS {
 };
 
 class Shape {
-    COLORS m_color;
+   
+COLORS m_color;
 
 public:
-
+  
     Shape(COLORS color) : m_color(color)
     {}
 
@@ -41,9 +42,7 @@ class Rect : public Shape {
 public:
     Rect(int x1 = 0, int y1 = 0, int x2 = 0, int y2 = 0, COLORS color = COLORS::BLACK);
 
-    virtual double getS() const override {
-        return static_cast<double>((m_y2 - m_y1) * (m_x2 - m_x1));
-    }
+    virtual double getS() const override;
 
     virtual bool operator==(const Shape& shape) const;
 

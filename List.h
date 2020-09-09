@@ -41,9 +41,9 @@ public:
 
     List& operator=(const List& other);
 
-    List(List&& other);
+    List(List&& other) noexcept;
 
-    List& operator=(List&& other);
+    List& operator=(List&& other) noexcept;
 
     ~List() {
         while (m_Head.m_pNext != &m_Tail)
