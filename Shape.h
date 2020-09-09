@@ -30,7 +30,7 @@ public:
 
     const char* getColor() const;
 
-    friend std::ofstream& operator<< (std::ofstream& out, const List& l);
+    unsigned int getColorNum() const { return static_cast<unsigned int> (m_color); }
 
 };
 
@@ -51,8 +51,10 @@ public:
         return new Rect(*this);
     }
 
-    friend std::ofstream& operator<< (std::ofstream& out, const List& l);
-
+    void getCoordinates(int& x1, int& y1, int& x2, int& y2) const {
+        x1 = m_x1; y1 = m_y1; x2 = m_x2; y2 = m_y2;
+    }
+  
     friend std::ostream& operator<< (std::ostream& out, const Rect& r);
 };
 
@@ -75,7 +77,11 @@ public:
         return new Circle(*this);
     }
 
-    friend std::ofstream& operator<< (std::ofstream& out, const List& l);
+    int getXCenter() const { return m_xCenter; }
+
+    int getYCenter() const { return m_yCenter; }
+
+    int getRad() const { return m_rad; }
 
     friend std::ostream& operator<< (std::ostream& out, const Circle& c);
 };

@@ -165,14 +165,16 @@ std::ofstream& operator<< (std::ofstream& out, const List& l) {
     while (it != &l.m_Tail) {
         if (typeid(*(it->m_Shape)) == typeid(Circle)) {
             Circle* itC = dynamic_cast<Circle*>(it->m_Shape->clone());
-            out << 'C' << ' ' << itC->m_xCenter << ' ' << itC->m_yCenter << ' '
-                << itC->m_rad << ' ' << it->m_Shape->m_color << '\n';
+            out << 'C' << ' ' << itC->getXCenter() << ' ' << itC->getYCenter() << ' '
+                << itC->getRad() << ' ' << it->m_Shape->getColorNum() << '\n';
             delete itC;
         }
         if (typeid(*(it->m_Shape)) == typeid(Rect)) {
             Rect* itR = dynamic_cast<Rect*>(it->m_Shape->clone());
-            out << 'R' << ' ' << itR->m_x1 << ' ' << itR->m_y1 << ' '
-                << itR->m_x2 << ' ' << itR->m_y2 << ' ' << it->m_Shape->m_color << '\n';
+            int x1, y1, x2, y2;
+            itR->getCoordinates(x1, y1, x2, y2);
+            out << 'R' << ' ' << x1 << ' ' << y1 << ' '
+                << x2 << ' ' << y2 << ' ' << it->m_Shape->getColor() << '\n';
             delete itR;
         }
 
