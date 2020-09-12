@@ -25,9 +25,16 @@ public:
 
     virtual Shape* clone() const = 0;
 
+	virtual void print(std::ofstream& out) const = 0;
+
     virtual bool operator==(const Shape& shape) const {
         return m_color == shape.m_color;
     }
+
+	virtual Shape& operator=(const Shape& s) {
+		m_color = s.m_color;
+		return *this;
+	}
 
     const char* getColor() const;
 
@@ -53,7 +60,15 @@ public:
     void getCoordinates(int& x1, int& y1, int& x2, int& y2) const {
         x1 = m_x1; y1 = m_y1; x2 = m_x2; y2 = m_y2;
     }
+
+	virtual void print(std::ofstream& out) const override;
   
+	virtual Shape& operator=(const Shape& s) {
+		
+		*this = static_cast<const Rect&>(s);
+		return *this;
+	}
+
     friend std::ostream& operator<< (std::ostream& out, const Rect& r);
 };
 
@@ -72,9 +87,17 @@ public:
 
     virtual bool operator==(const Shape& shape) const;
 
+	virtual Shape& operator=(const Shape& s) {
+
+		*this = static_cast<const Circle&>(s);
+		return *this;
+	}
+
     virtual Shape* clone() const override {
         return new Circle(*this);
     }
+
+	virtual void print(std::ofstream& out) const override;
 
     int getXCenter() const { return m_xCenter; }
 
@@ -84,3 +107,4 @@ public:
 
     friend std::ostream& operator<< (std::ostream& out, const Circle& c);
 };
+

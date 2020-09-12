@@ -1,4 +1,5 @@
 #include "Shape.h"
+#include <fstream>
 
 const char* Shape::getColor() const {
     switch (m_color) {
@@ -38,6 +39,13 @@ double Rect::getS() const {
     return static_cast<double>(S);
 }
 
+void Rect::print(std::ofstream& out) const
+{
+	int x1, y1, x2, y2;
+	getCoordinates(x1, y1, x2, y2);
+	out << 'R' << ' ' << x1 <<' ' << y1 << ' '<< x2 << ' ' << y2 << ' '<< getColor() << '\n' ;
+}
+
 bool Rect::operator==(const Shape& shape) const{
 
     if (typeid(shape) == typeid(Rect)) {
@@ -68,6 +76,13 @@ bool Circle::operator==(const Shape& shape) const {
             tmp->m_rad == m_rad;
     }
     else return false;
+}
+
+void Circle::print(std::ofstream& out) const {
+
+
+	out << 'C' << ' ' << getXCenter() << ' ' << getYCenter() << ' ' << getRad() << ' ' <<Shape::getColor()<< ' '  << '\n';
+
 }
 
 std::ostream& operator<< (std::ostream& out, const Circle& c) {

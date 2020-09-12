@@ -16,21 +16,21 @@ int main()
     l.addToHead(&C1);
     l.addToHead(&C2);
     l.addToHead(&R);
-    l.selectionSort();
+	l.selectionSort(compS);
     std::cout << l << "\n\n";
-    l.removeAll();
-    std::ifstream in("in.txt");
+    //l.removeAll();
+    //std::ifstream in("in.txt");
 
-    List a;
+   // List a;
 
-    in >> a;
+    //in >> a;
 
-    std::cout << a;
+    //std::cout << a;
 
     std::ofstream out("out.txt");
 
-    out << a;
-    in.close();
+    out << l;
+    //in.close();
     out.close();
 
     return 0;

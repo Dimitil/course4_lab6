@@ -1,5 +1,10 @@
 #include "List.h"
 
+bool compS(const Shape* a, const Shape* b) 
+{
+	return (a->getS()) < (b->getS());
+}
+
 void List::remove(const Shape* shape) {
 
     Node* iter = m_Head.m_pNext;
@@ -21,14 +26,15 @@ void List::removeAll() {
     m_size = 0;
 }
 
-void List::selectionSort()
+void List::selectionSort(bool (*comp)(const Shape*, const Shape*))//параметр для сортировки передавать
 {
     Node* p = m_Head.m_pNext;
     while (p != m_Tail.m_pPrev) {
         Node* minimal = p;
         Node* d = p->m_pNext;
         while (d != &m_Tail) {
-            if (minimal->m_Shape->getS() > d->m_Shape->getS()) {
+            if (comp(minimal->m_Shape,  d->m_Shape) )
+			{
                 minimal = d;
             }
             d = d->m_pNext;
@@ -64,15 +70,14 @@ List& List::operator=(const List& other){//память уже есть, копирование
     Node* pOther = other.m_Head.m_pNext;
 
     while ((pOther != &other.m_Tail) && (pThis != &m_Tail)) {
-        if (typeid(*(pOther->m_Shape)) == typeid(*(pThis->m_Shape))) {
-            pThis->m_Shape = pOther->m_Shape->clone();
-
-        }
+		if (typeid(*(pOther->m_Shape)) == typeid(*(pThis->m_Shape)))
+		{
+			*pThis->m_Shape = *pOther->m_Shape;
+		}
         else {
-            auto tmp = pThis;
-            pThis = pThis->m_pNext;
-            delete tmp;
-            pThis = new Node(pOther->m_Shape, pThis->m_pPrev);
+       
+			delete pThis->m_Shape;
+			pThis->m_Shape = pOther->m_Shape->clone();
         }
         pThis = pThis->m_pNext;
         pOther = pOther->m_pNext;
@@ -147,13 +152,13 @@ std::ifstream& operator>>(std::ifstream& in, List& l) {
     while (in.get(ch)) {
         if (ch == 'C') {
             in >> par1 >> par2 >> par3 >> col;
-            Circle* tmp = new Circle(par1, par2, par3, static_cast<COLORS>(col));
-            l.addToTail(tmp);
+			Circle tmp(par1, par2, par3, static_cast<COLORS>(col));
+            l.addToTail(&tmp);//лучше нет
         }
         if (ch == 'R') {
             in >> par1 >> par2 >> par3 >> par4 >> col;
-            Rect* tmp = new Rect(par1, par2, par3, par4, static_cast<COLORS>(col));
-            l.addToTail(tmp);
+            Rect tmp(par1, par2, par3, par4, static_cast<COLORS>(col));
+            l.addToTail(&tmp);//лучше нет
         }
     }
 
@@ -163,7 +168,8 @@ std::ifstream& operator>>(std::ifstream& in, List& l) {
 std::ofstream& operator<< (std::ofstream& out, const List& l) {
     Node* it = l.m_Head.m_pNext;
     while (it != &l.m_Tail) {
-        if (typeid(*(it->m_Shape)) == typeid(Circle)) {
+		it->m_Shape->print(out);
+      /*  if (typeid(*(it->m_Shape)) == typeid(Circle)) {
             Circle* itC = dynamic_cast<Circle*>(it->m_Shape->clone());
             out << 'C' << ' ' << itC->getXCenter() << ' ' << itC->getYCenter() << ' '
                 << itC->getRad() << ' ' << it->m_Shape->getColorNum() << '\n';
@@ -176,7 +182,7 @@ std::ofstream& operator<< (std::ofstream& out, const List& l) {
             out << 'R' << ' ' << x1 << ' ' << y1 << ' '
                 << x2 << ' ' << y2 << ' ' << it->m_Shape->getColor() << '\n';
             delete itR;
-        }
+        }*/
 
         it = it->m_pNext;
     }

@@ -35,7 +35,7 @@ public:
 
     void removeAll();
 
-    void selectionSort();
+	void selectionSort(bool (*comp)(const Shape*,  const Shape*));
 
     List(const List& other);
 
@@ -56,3 +56,5 @@ public:
     friend std::ofstream& operator<<(std::ofstream& out, const List& l);
     friend std::ifstream& operator>>(std::ifstream& in, List& l);
 };
+
+bool compS(const Shape* a, const Shape* b);
